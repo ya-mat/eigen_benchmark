@@ -11,14 +11,14 @@ For comparison, computational times of Fortran with netlib reference BLAS and LP
 ## Usage
 
 ```
-git clone https://github.com/ya-mat/eigen_benchmark.git
-cd eigen_benchmark
-make
-./a.out && ./f.out
+$ git clone https://github.com/ya-mat/eigen_benchmark.git
+$ cd eigen_benchmark
+$ make
+$ ./a.out && ./f.out
 ```
 
 ## Measurements
 
-- matrix multiplication
-- matrix inversion
-- LU decomposition
+- matrix multiplication time
+- matrix inversion time
+- LU decomposition time
