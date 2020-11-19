@@ -5,17 +5,17 @@ For comparison, computational times of Fortran with netlib reference BLAS and LP
 
 ## Content
 
-- a.out : C++ with Eigen
-- f.out : Fortran with netlib reference BLAS and LPACK
+- `a.out` : C++ with Eigen
+- `f.out` : Fortran with netlib reference BLAS and LPACK
 
 ## Usage
 
-'''
+```
 git clone https://github.com/ya-mat/eigen_benchmark.git
 cd eigen_benchmark
 make
 ./a.out && ./f.out
-'''
+```
 
 ## Measurements
 
