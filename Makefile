@@ -6,7 +6,8 @@ INCLUDE	     =
 
 FLINKER	     = gfortran
 FC	     = gfortran
-FLDFLAGS	     = -llapack -lrefblas
+#FLDFLAGS	     = -llapack -lrefblas
+FLDFLAGS	     = -lopenblas
 FOPTS	     = -cpp -O3 -ffree-line-length-none -fmax-errors=3
 FINCLUDE	     =
 

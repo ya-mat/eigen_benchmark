@@ -50,4 +50,11 @@ int main()
   end = std::chrono::system_clock::now();
   time = static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()/1000.0);
   std::cout << "LU decomposition time " << time << std::endl;
+
+  // rank-revealing QR
+  start = std::chrono::system_clock::now();
+  Eigen::MatrixXd G = A.colPivHouseholderQr().matrixQR();
+  end = std::chrono::system_clock::now();
+  time = static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()/1000.0);
+  std::cout << "rank-revealing QR time " << time << std::endl;
 }

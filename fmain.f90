@@ -57,12 +57,21 @@ program main
     integer, allocatable :: ipiv(:)
 
     allocate(ipiv(n))
+    ipiv = 0
 
     call system_clock(c1,cr,cm)
     call dgetrf(n, N, bb, n, IPIV, INFO)
     call system_clock(c2,cr,cm)
+    write(*,*) 'LU decomposition time', dble(c2-c1)/dble(cr)
+
+    ! rank-revealing QR
+    ipiv = 0
+    call random_number(aa)
+    call system_clock(c1,cr,cm)
+    call matqr_all(aa, ipiv)
+    call system_clock(c2,cr,cm)
+    write(*,*) 'rank-revealing QR time', dble(c2-c1)/dble(cr)
   end block
-  write(*,*) 'LU decomposition time', dble(c2-c1)/dble(cr)
 
   stop
 
@@ -110,6 +119,48 @@ contains
     return
   end subroutine matinv
 !-----------------------
+  subroutine matqr_all(a, ipvt)
+    implicit none
+
+    real(8),intent(inout) :: a(:,:)
+    integer,intent(inout) :: ipvt(:)
+
+    real(8), allocatable :: work(:)
+!    real(8),allocatable :: rwork(:)
+    real(8), allocatable :: tau(:)
+    integer :: na
+    integer :: nn
+    integer :: lwork
+    integer :: info
+
+    na = size(a(:, 1))
+    nn = size(a(1, :))
+
+    allocate(work(1))
+!    allocate(rwork(2*nn))
+    allocate(tau(min(na, nn)))
+
+    lwork = -1
+!    call zgeqp3(na,nn,a,na,ipvt,tau,work,lwork,rwork,info)
+    call dgeqp3(na,nn,a,na,ipvt,tau,work,lwork,info)
+    if(info .ne. 0) then
+       write(*,*) 'info', info
+       call force_raise()
+    end if
+
+    lwork = max(int(work(1)+0.1d0),na,1) + 1
+    deallocate(work)
+    allocate(work(lwork))
+
+!    call zgeqp3(na,nn,a,na,ipvt,tau,work,lwork,rwork,info)
+    call dgeqp3(na,nn,a,na,ipvt,tau,work,lwork,info)
+    if(info .ne. 0) then
+       write(*,*) 'info', info
+       call force_raise()
+    end if
+
+  end subroutine matqr_all
+  !----------------------------------------------------------------
   subroutine force_raise()
     implicit none
 
